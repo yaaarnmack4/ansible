@@ -1,0 +1,21 @@
+# code: language=ansible
+---
+- name: Bootstrap ubuntu
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Update & upgrade APT
+      ansible.builtin.apt:
+        upgrade: true
+        update_cache: true
+
+    - name: Install common tools
+      ansible.builtin.apt:
+        name:
+          - curl
+          - git
+          - vim
+        update_cache: true
+  roles:
+    - sshd
+    - docker

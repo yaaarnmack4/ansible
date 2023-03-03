@@ -1,7 +1,0 @@
-# code: language=ansible
----
-- name: Playbook system
-  hosts: all
-  become: true
-  roles:
-    - linux
