@@ -1,0 +1,6 @@
+# code: language=ansible
+---
+- name: Reload sshd
+  ansible.builtin.service:
+    name: sshd
+    state: reloaded

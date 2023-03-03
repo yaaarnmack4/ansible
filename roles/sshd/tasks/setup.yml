@@ -1,0 +1,15 @@
+# code: language=ansible
+---
+- name: Configure sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: "^(#)?{{ item.key }}"
+    line: "{{ item.key }} {{ item.value }}"
+  with_items:
+    - key: "PasswordAuthentication"
+      value: "no"
+    - key: "PermitRootLogin"
+      value: "no"
+  notify:
+    - Reload sshd

@@ -1,0 +1,4 @@
+# code: language=ansible
+---
+- name: Include setup.yml
+  ansible.builtin.include_tasks: setup.yml
