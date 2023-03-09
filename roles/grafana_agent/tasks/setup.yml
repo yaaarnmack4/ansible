@@ -1,0 +1,35 @@
+# code: language=ansible
+# https://docs.docker.com/engine/install/debian
+---
+- name: Set up the repository (gpg)
+  become: true
+  ansible.builtin.shell:
+    cmd: "curl -fsSL https://apt.grafana.com/gpg.key | gpg --yes --dearmor -o /etc/apt/keyrings/grafana.gpg"
+  tags: [skip_ansible_lint]
+
+- name: Set up the repository (repository)
+  ansible.builtin.apt_repository:
+    filename: grafana
+    repo: "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main"
+    state: present
+    update_cache: true
+
+- name: Install Grafana Agent
+  ansible.builtin.apt:
+    name:
+      - grafana-agent
+    state: present
+    update_cache: true
+
+- name: Enable Grafana Agent
+  ansible.builtin.service:
+    name: grafana-agent
+    enabled: true
+
+- name: Add user to a docker group
+  ansible.builtin.user:
+    name: grafana-agent
+    groups: docker
+    append: true
+  notify:
+    - Restart grafana-agent

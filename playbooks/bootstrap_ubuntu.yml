@@ -12,6 +12,7 @@
     - name: Install common tools
       ansible.builtin.apt:
         name:
+          - bluez
           - curl
           - git
           - vim
@@ -19,3 +20,4 @@
   roles:
     - sshd
     - docker
+    - grafana_agent
